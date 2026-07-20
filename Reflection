@@ -1,0 +1,118 @@
+Branch 4: reflection-and-development
+Reflection and Professional Development
+Development of Machine-Learning Knowledge
+
+The module expanded my knowledge across several areas.
+
+I developed a stronger understanding of:
+
+correlation and regression;
+similarity measures;
+perceptrons;
+neural networks;
+gradient descent;
+convolutional neural networks;
+recommender systems;
+matrix factorisation;
+neural collaborative filtering;
+validation;
+performance metrics;
+explainability;
+bias;
+ethical deployment.
+
+The most important change was recognising that model performance cannot be separated from data quality, validation and use context.
+
+Development Through Tutor Feedback
+
+The Airbnb feedback was an important learning experience.
+
+The group achieved a mark of 66, but the tutor identified limitations in validation, model justification, interpretation and business usefulness.
+
+Initially, I focused on the amount of work completed. After reflection, I understood that academic quality depends on whether the claims are supported by evidence.
+
+The low R² showed that the model had limited ability to explain Airbnb prices. Instead of treating this result as a minor weakness, I learned that it should define the boundaries of the recommendation.
+
+Development Through the Individual Project
+
+The individual recommender-system project was designed in response to the group feedback.
+
+I introduced:
+
+a strong classical baseline;
+a temporal split;
+a validation set;
+a final untouched test set;
+cross-validation sensitivity analysis;
+prediction and ranking metrics;
+explainability;
+subgroup diagnostics;
+deployment controls.
+
+This represented a more disciplined approach to machine learning.
+
+Development as a Team Member
+
+My team contribution was strongest in:
+
+reviewing work;
+finding inconsistencies;
+improving technical explanations;
+validating conclusions;
+providing constructive feedback;
+supporting final report quality.
+
+My self-evaluation score was 35 out of 35.
+
+However, I identified three areas for improvement:
+
+delegation;
+time management;
+early-stage coordination.
+
+In future projects, I will contribute earlier to planning rather than focusing mainly on final-stage review.
+
+Development Actions
+
+I will use a traceability table in future projects to connect:
+
+business problem;
+dataset;
+target;
+features;
+preprocessing;
+baseline;
+advanced model;
+validation;
+metrics;
+limitations;
+final decision.
+
+I will also ensure that complex models are compared with strong simpler alternatives.
+
+For tabular data, I will consider:
+
+regularised regression;
+random forests;
+gradient boosting;
+neural networks.
+
+For every model, I will report validation performance and uncertainty rather than relying on one test score.
+
+Professional Impact
+
+The module has strengthened my ability to evaluate machine-learning systems critically.
+
+I no longer define a good model only by accuracy. I also consider:
+
+whether the data are appropriate;
+whether the result generalises;
+whether the model can be explained;
+whether groups are affected differently;
+whether user privacy is protected;
+whether the model can be monitored;
+whether rollback is possible.
+
+This approach is relevant to any organisation using artificial intelligence.
+
+My future professional contribution will combine technical analysis, quality assurance and responsible governance. I will focus not only on what a model can predict but also on whether the complete system can be understood, challenged and safely operated.
