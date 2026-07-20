@@ -1,0 +1,161 @@
+Learning Activities Across the Module
+
+This branch presents the main activities I completed throughout the ML_PCOM7E module. These activities demonstrate the gradual development of my knowledge of machine-learning concepts, mathematical foundations, model construction, evaluation, ethics and professional practice.
+
+Units 1–3: Collaborative Discussion 1
+
+During the first collaborative discussion, I explored the foundations of machine learning and the role of data in developing predictive systems. I discussed the distinction between supervised and unsupervised learning and considered how regression, classification and clustering address different analytical problems.
+
+The discussion helped me understand that selecting an algorithm must begin with a clear problem definition. A machine-learning professional must identify the business question, target variable, available evidence and intended use before deciding which model to apply.
+
+I also considered the risks associated with poor-quality data. Missing values, inaccurate labels, irrelevant features and unrepresentative samples can affect both performance and fairness. This activity helped me recognise that machine-learning quality depends on the complete analytical process rather than the algorithm alone.
+
+Unit 2: Seminar Preparation
+
+For the Unit 2 seminar preparation, I examined the main stages of a machine-learning workflow. These included data collection, exploratory analysis, preprocessing, model development, evaluation and deployment.
+
+I reflected on the importance of understanding the dataset before training a model. This involves checking variable types, distributions, missing values, duplicates, class balance and possible outliers. I learned that preprocessing decisions must be justified because they can influence the final results.
+
+This activity prepared me for the Airbnb group project, where the data required cleaning, transformation and selection of relevant predictors before model training.
+
+Unit 3: Correlation and Regression
+
+The correlation and regression activity developed my understanding of relationships between variables.
+
+I learned that correlation measures the strength and direction of an association but does not establish causation. Two variables may be correlated because of an omitted factor or a shared underlying process.
+
+Regression provides a method for estimating how a target variable changes in relation to one or more predictors. I examined the role of regression coefficients, residuals and performance measures such as:
+
+Mean Absolute Error;
+Root Mean Squared Error;
+coefficient of determination;
+adjusted coefficient of determination.
+
+This activity was directly relevant to the Airbnb project because listing price was treated as a continuous outcome.
+
+Unit 4: Seminar Preparation
+
+In Unit 4, I explored model development and the importance of comparing different algorithms.
+
+I learned that a simple model should normally be used as a baseline. More complex models should only be selected when they provide a meaningful and reliable improvement.
+
+This became especially important in the Airbnb project. The group compared a linear regression baseline with neural-network models. The tutor feedback later showed that we needed to evaluate more critically whether the small improvement produced by the neural network justified its additional complexity.
+
+Unit 5: Wiki Activity
+
+The Unit 5 wiki activity required collaborative knowledge development. I contributed to shared explanations of machine-learning concepts and reviewed information added by other students.
+
+This activity improved my ability to explain technical material clearly and concisely. It also reinforced the importance of using appropriate academic sources when presenting definitions, methods and claims.
+
+The collaborative nature of the wiki demonstrated that knowledge development benefits from peer contribution, but it also requires checking accuracy and consistency.
+
+Unit 5: Jaccard Coefficient Calculations
+
+The Jaccard coefficient activity introduced me to similarity measurement.
+
+The Jaccard coefficient compares two sets by dividing the size of their intersection by the size of their union:
+
+J(A,B)=
+∣A∪B∣
+∣A∩B∣
+	​
+
+
+I learned that the measure is useful when the presence or absence of features matters more than their frequency. It can support clustering, document similarity, recommendation and comparison of binary attributes.
+
+Completing the calculations strengthened my confidence in interpreting similarity measures rather than treating them as abstract formulas.
+
+Unit 6: Seminar Preparation
+
+The Unit 6 seminar preparation supported the group project. I reviewed regression, neural networks, model evaluation and the relationship between technical findings and business decisions.
+
+This activity helped me recognise that a good report must explain why a model was selected, how it was validated and whether the final performance is useful.
+
+The later tutor feedback confirmed that our group needed stronger justification of neural networks for tabular data, better validation and clearer interpretation of the low R² result.
+
+Unit 7: Perceptron Activities
+
+The perceptron activities introduced the basic structure of an artificial neuron.
+
+I learned that a perceptron combines inputs with weights, adds a bias and applies an activation function. The output depends on whether the weighted sum crosses a decision threshold.
+
+The activity helped me understand how neural networks extend the perceptron concept through multiple layers, non-linear activation functions and optimisation using gradient descent.
+
+I also learned that a single perceptron can only model linearly separable problems. More complex patterns require hidden layers and non-linear representations.
+
+Unit 8: Seminar Preparation
+
+The Unit 8 seminar preparation focused on neural networks, optimisation and model training.
+
+I examined how learning rate, batch size, number of epochs and regularisation affect training. I learned that neural-network performance can be highly sensitive to these choices.
+
+This activity helped me recognise one of the weaknesses in the Airbnb group report. The neural-network architectures were applied, but their design and hyperparameters were not sufficiently justified or optimised.
+
+Unit 8: Gradient Cost Function
+
+The gradient cost-function activity strengthened my understanding of how models learn.
+
+A cost function measures the difference between model predictions and actual values. Gradient descent updates the model parameters in the direction that reduces this error.
+
+I learned that a learning rate that is too large can cause unstable training, while a learning rate that is too small may result in slow convergence. I also learned that cost-function behaviour can reveal overfitting or optimisation problems.
+
+This mathematical activity helped me understand the training process used in both neural regression and neural collaborative filtering.
+
+Units 8–10: Collaborative Discussion 2
+
+In the second collaborative discussion, I considered ethical, legal, social and professional issues in machine learning.
+
+The discussion addressed:
+
+data privacy;
+informed consent;
+fairness;
+transparency;
+bias;
+accountability;
+explainability;
+human oversight;
+professional responsibility.
+
+I learned that ethical risk depends heavily on the context in which a model is used. A minor error in a low-impact entertainment system may be inconvenient, while an error in healthcare, policing or financial decision-making may cause serious harm.
+
+I also learned that fairness cannot be established through one metric. It requires examination of data representation, subgroup performance, exposure, accessibility and consequences.
+
+Unit 9: CNN Model Activity
+
+The CNN model activity introduced convolutional neural networks and their use in processing image data.
+
+I learned how convolutional filters identify local features, pooling reduces spatial dimensions and deeper layers combine simple patterns into more complex representations.
+
+Although my final individual project focused on recommender systems rather than image classification, the activity strengthened my general understanding of deep learning. It also helped me compare different model architectures and recognise that the appropriate network design depends on the data type.
+
+Unit 10: Seminar Preparation
+
+The Unit 10 seminar preparation focused on explainability, bias and responsible deployment.
+
+I explored how feature importance, local explanations and model decomposition can be used to inspect model behaviour. I also recognised that an explanation does not prove causality.
+
+This lesson was applied in my individual project. Matrix factorisation allowed an additive prediction decomposition, while neural collaborative filtering was examined using permutation importance.
+
+Unit 11: Model Performance Measurement
+
+The Unit 11 activity developed my ability to evaluate models using more than one measure.
+
+For recommender systems, I examined:
+
+RMSE for rating prediction;
+NDCG@10 for ranking quality;
+validation mean and standard deviation;
+training time;
+parameter count;
+subgroup performance.
+
+I learned that two metrics can produce different conclusions. A model may predict ratings more accurately while another ranks relevant films more effectively.
+
+This activity helped me develop a conditional rather than automatic recommendation for model deployment.
+
+Unit 12: Seminar Preparation
+
+The final seminar preparation involved reviewing my evidence, tutor feedback, peer evaluation and technical development.
+
+I reflected on what I had learned, what remained weak and how I would improve future projects. This activity supported the creation of my final e-portfolio and reflective piece.
