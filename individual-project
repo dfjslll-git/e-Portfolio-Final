@@ -1,0 +1,223 @@
+Unit 11 Individual Project
+Project Title
+
+Comparative Intelligence and Ethics in Machine Learning: Classical Matrix Factorisation versus Neural Collaborative Filtering
+
+Project Purpose
+
+My individual project compared two recommendation approaches using the MovieLens 100K dataset:
+
+regularised biased matrix factorisation;
+neural collaborative filtering.
+
+The project did not simply ask which model achieved the lowest error. It examined whether the additional complexity of the neural model produced a stable and meaningful benefit.
+
+The evaluation considered:
+
+rating prediction;
+ranking quality;
+validation stability;
+explainability;
+subgroup performance;
+privacy;
+computational cost;
+deployment risk.
+Dataset
+
+MovieLens 100K contains:
+
+100,000 ratings;
+943 users;
+1,682 films;
+ratings from 1 to 5.
+
+The dataset was suitable because it is a recognised benchmark and can be processed on an ordinary computer.
+
+However, it also has limitations. The ratings were collected in the 1990s and therefore do not represent current streaming catalogues, modern interfaces or contemporary user behaviour.
+
+Missing ratings are also ambiguous. A user may not have watched a film, may not know it exists or may have intentionally avoided it.
+
+Data Preparation
+
+I loaded the rating, user and item data and mapped user and film identifiers to continuous numerical indices.
+
+The same data split was used for both models.
+
+For each user:
+
+earlier ratings were used for training;
+the second most recent rating was used for validation;
+the latest rating was used for testing.
+
+This temporal split reduced the risk of future-to-past leakage and better represented a real recommendation scenario.
+
+I also checked:
+
+missing core values;
+duplicate user-item pairs;
+valid rating ranges;
+consistent preprocessing maps.
+Classical Model: Matrix Factorisation
+
+The classical model was regularised biased matrix factorisation.
+
+Its prediction combined:
+
+the global average rating;
+a user bias;
+a film bias;
+the interaction between user and film latent vectors.
+
+The model used:
+
+20 latent factors;
+stochastic gradient descent;
+L2 regularisation;
+early stopping;
+rating clipping between 1 and 5.
+
+The model was computationally efficient and its prediction could be decomposed into interpretable components.
+
+Deep Model: Neural Collaborative Filtering
+
+The neural model used separate user and film embeddings.
+
+The embeddings were concatenated and passed through dense neural-network layers with:
+
+64 ReLU units;
+32 ReLU units;
+dropout;
+weight decay;
+Adam optimisation;
+learning-rate reduction;
+early stopping.
+
+The output was transformed back to the 1–5 rating scale.
+
+The model had greater non-linear capacity but also introduced more parameters, longer training time and greater explanation difficulty.
+
+Evaluation
+
+I used two main performance metrics.
+
+RMSE
+
+RMSE measured how close the predicted ratings were to the observed ratings.
+
+Lower RMSE represented better rating prediction.
+
+NDCG@10
+
+NDCG@10 measured whether relevant films appeared near the top of a recommendation list.
+
+A held-out film with a rating of at least four was treated as relevant and compared with sampled unseen items.
+
+This was important because rating prediction and ranking quality are different objectives.
+
+Validation Strategy
+
+I used the temporal validation and test structure as the main evaluation design.
+
+I also included a three-fold sensitivity analysis within the development data.
+
+The purpose was to determine whether performance was stable or depended on a convenient data split.
+
+This improved on the single-split limitation identified in the Airbnb group project.
+
+Explainability
+
+For matrix factorisation, I produced a local additive explanation using:
+
+global mean;
+user bias;
+film bias;
+latent interaction.
+
+These components reconstructed the predicted rating.
+
+For neural collaborative filtering, I used permutation importance by shuffling user or film identifiers and measuring the increase in RMSE.
+
+This showed whether the model relied more heavily on user identity or item identity.
+
+However, I recognised that permutation importance indicates reliance rather than causality.
+
+Bias Analysis
+
+I examined whether model error differed across:
+
+low-activity users;
+medium-activity users;
+high-activity users;
+age categories;
+the dataset’s historical gender categories.
+
+The demographic variables were used only after prediction and were not used as model inputs.
+
+I also considered group sample sizes and the limitations of the dataset’s historical demographic categories.
+
+I learned that equal RMSE does not necessarily mean equal recommendation quality, catalogue exposure or user experience.
+
+Ethical Considerations
+
+The project examined several ethical risks:
+
+privacy;
+re-identification;
+popularity bias;
+false-positive recommendations;
+false-negative recommendations;
+feedback loops;
+unequal exposure;
+limited user control.
+
+Although MovieLens uses pseudonymous identifiers, combinations of demographic and behavioural data could still increase re-identification risk.
+
+A production system should therefore include:
+
+data minimisation;
+encryption;
+access controls;
+retention limits;
+deletion options;
+user correction;
+recommendation dismissal;
+opt-out mechanisms.
+Deployment Design
+
+The proposed deployment included:
+
+an authenticated client request;
+candidate-film retrieval;
+model scoring;
+a policy layer;
+ranked results;
+monitoring;
+human approval;
+fallback models;
+rollback capability.
+
+The system would monitor:
+
+latency;
+failures;
+data drift;
+score drift;
+coverage;
+subgroup NDCG;
+exposure concentration;
+user feedback.
+Final Recommendation
+
+My recommendation was to begin with matrix factorisation.
+
+For a dataset of this size, it provides:
+
+strong baseline performance;
+lower computational cost;
+smaller model size;
+direct prediction decomposition;
+predictable deployment.
+
+Neural collaborative filtering should only be selected if it demonstrates a meaningful and stable ranking improvement that justifies its additional cost, latency and explanation burden.
+
+The main conclusion was that complexity must earn its place through reproducible evidence.
