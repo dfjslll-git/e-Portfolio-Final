@@ -1,0 +1,119 @@
+SLIDE 1
+Good morning. This presentation compares two forms of machine-learning intelligence applied to the same recommendation problem: a classical matrix-factorisation model and a deep neural collaborative-filtering model.
+
+The aim is not simply to identify the model with the lowest error. I evaluate prediction and ranking performance, validation stability, explainability, bias, privacy, operational cost and deployment risk. The central argument is that a more complex model is only preferable when its measurable benefit is stable and large enough to justify its additional ethical and operational burden.
+
+The supporting notebook contains the reproducible implementation, fixed random seeds, preprocessing, model training, evaluation and subgroup diagnostics. I will first explain the dataset and experimental design, then compare the models, and finally make a deployment recommendation.
+
+SLIDE 2
+The comparison is organised around four questions. First, can each model predict ratings and rank relevant films? Second, does that performance generalise, or is it a consequence of a convenient split? Third, can the model’s behaviour be explained to developers and users? Finally, can it be operated safely, privately and fairly in a real service?
+
+These dimensions matter because offline accuracy is only one part of system quality. A recommender can achieve a good average score while performing poorly for low-activity users, repeatedly promoting already-popular items, or creating explanations that are too weak for meaningful oversight.
+
+Therefore, I treat deployment intelligence as the combination of performance, reliability and accountability. This framing also prevents the analysis from assuming that deep learning is automatically superior simply because it is newer or more flexible.
+
+SLIDE 3
+I selected MovieLens 100K from GroupLens Research. It contains one hundred thousand explicit ratings, provided by 943 users across 1,682 films on a one-to-five scale. It is a reputable benchmark with a manageable size, making it suitable for a transparent comparison that can be reproduced on an ordinary computer.
+
+The same user–item interactions are used by both models, which improves comparability. The dataset also includes limited demographic information. I do not use those fields to make predictions; I use them only after prediction to inspect whether error differs across groups.
+
+There are important limitations. The data were collected in the 1990s, so they cannot represent contemporary streaming catalogues, user expectations or interface effects. Missing ratings are also ambiguous: a user may not have seen a film, may not know it exists, or may have deliberately avoided it. This means offline results should be treated as benchmark evidence, not proof of current commercial impact.
+
+SLIDE 4
+The pipeline begins by downloading the official GroupLens archive and loading the ratings, user and item files. User and item identifiers are then mapped to contiguous integers. Ratings remain on their original scale, avoiding unnecessary transformations that would complicate interpretation.
+
+The key design choice is the split. For every user, the most recent interaction is reserved for testing and the second most recent for validation. Earlier interactions are used for training. This temporal structure is closer to deployment than an unrestricted random split and reduces future-to-past leakage.
+
+Both models use the same split and the same fixed seed. The code also checks missing core values and duplicate user–item pairs. Preprocessing maps must be stored with the model, because an inference service must apply exactly the same mapping used during training. Finally, the test set remains untouched until model selection is complete.
+
+SLIDE 5
+This slide shows the temporal holdout. The large blue region contains earlier ratings used to learn parameters. The amber interaction supports hyperparameter decisions and early stopping. The teal interaction is the latest rating and remains untouched until final evaluation.
+
+Why is this important? If interactions are randomly mixed, a model may learn from a user’s later preferences when predicting an earlier rating. That is unrealistic for a live service. A per-user temporal split makes the question clearer: using what was known before, how well can the system predict the next observed preference?
+
+I also include a three-fold sensitivity analysis within the development data. Cross-validation estimates how sensitive RMSE is to a particular partition and supports a mean and standard deviation rather than a single potentially lucky result. However, temporal test performance remains the primary deployment estimate because standard shuffled folds are not a perfect simulation of time.
+
+SLIDE 6
+The classical model is regularised biased matrix factorisation. Its prediction is the sum of four interpretable components: the global average rating, a user bias, a movie bias, and the dot product of user and movie latent vectors.
+
+The biases capture systematic behaviour. For example, some users consistently rate more generously, while some films attract higher ratings across many users. The latent interaction captures preference dimensions learned from rating patterns. These factors are not automatically human-labelled genres, but similar users and films become closer in the latent space.
+
+I selected 20 factors as a moderate capacity for this dataset, stochastic gradient descent for optimisation, L2 regularisation to discourage extreme parameters, and early stopping based on validation RMSE. Outputs are clipped to the valid one-to-five range. The model is computationally efficient and its additive prediction can be decomposed, making it a strong baseline for both performance and explainability.
+
+SLIDE 7
+The deep model is neural collaborative filtering. User and movie identifiers enter separate 24-dimensional embedding layers. The embeddings are concatenated and passed through dense layers with 64 and 32 ReLU units. A sigmoid output is rescaled to the one-to-five rating range.
+
+This architecture can represent nonlinear interactions that a simple dot product cannot. That flexibility is the main argument for NCF. However, flexibility also increases parameter count, training time, sensitivity to hyperparameters and explanation difficulty.
+
+The training strategy uses mini-batch Adam, dropout of 0.15, small weight decay, learning-rate reduction when validation improvement stalls, and early stopping. PyTorch was chosen because its modules make the architecture explicit and automatic differentiation reduces implementation error. The key question is therefore empirical: does this additional flexibility produce a stable improvement in RMSE or ranking quality large enough to justify its complexity?
+
+SLIDE 8
+This table summarises the central trade-off. Matrix factorisation is structurally simple: it represents interactions through a dot product. NCF replaces this with a nonlinear network, increasing expressive capacity.
+
+The benefit is potential performance. The costs are greater tuning sensitivity, more parameters, longer training and a weaker direct explanation. Neither model solves cold start by itself because both depend on learned identifiers. A production design would need popularity fallbacks, content features, onboarding preferences or carefully governed exploration for new users and items.
+
+Operationally, matrix factorisation is usually easier to serve with predictable latency and smaller memory use. NCF may still be justified when it produces a meaningful and repeatable ranking improvement. This is why I do not select a winner based on architecture. The decision rule combines executed metrics, cross-validation stability, subgroup behaviour and deployment cost.
+
+SLIDE 9
+I use two complementary metrics. RMSE measures the difference between observed and predicted ratings. Squaring the errors penalises large mistakes more strongly, and a lower score is better. It answers a point-prediction question but does not directly measure recommendation order.
+
+NDCG at ten evaluates ranking. A relevant held-out item receives more credit when it appears near the top of the list, with gains discounted at lower positions. In this notebook, relevance means a held-out rating of at least four. Each positive is compared with up to one hundred reproducibly sampled unseen items.
+
+That sampling protocol must be reported because sampled NDCG is not identical to ranking the full catalogue. Metrics can also disagree: one model may predict ratings more precisely while another produces a better top-ten order. The deployment choice should reflect the real product objective. If the interface displays a ranked carousel, NDCG is especially important.
+
+SLIDE 10
+The notebook automatically produces the evidence that should be reported: final test RMSE, sampled NDCG at ten, the mean and standard deviation across three development folds, parameter counts, and training curves. Runtime can also be recorded in the execution environment.
+
+A single score is insufficient. A small NCF advantage that changes across folds may reflect sampling variation rather than a reliable benefit. A practical decision should ask whether the ranking gain is meaningful in relation to user experience and whether it justifies additional latency, energy use, failure modes and explanation burden.
+
+The slide deliberately does not invent numerical results. Before recording, I will run all notebook cells and replace this evidence prompt with the exact output table or screenshot. This preserves academic integrity and ensures that every stated finding is reproducible from the submitted code. The recommendation remains conditional until those final values are available.
+
+SLIDE 11
+Explainability is handled differently for each model. Matrix factorisation supports a local additive explanation. For one user–film prediction, the notebook displays the global mean, the user bias, the movie bias and the latent interaction. These components reconstruct the score and help identify whether a recommendation is driven by general popularity or a user-specific match.
+
+For NCF, I apply model-agnostic permutation importance. User or movie identifiers are independently shuffled in the test set, and the increase in RMSE is measured. A larger increase indicates that the trained model relies more strongly on that input identity.
+
+This is useful for comparative diagnosis, but it is not a causal explanation and it does not translate automatically into a user-friendly reason. Permuting identifiers can also create unrealistic combinations. Therefore, explainability results should support debugging and oversight, while user-facing explanations should use validated reasons such as similar rated films or genre patterns and must be tested for faithfulness.
+
+SLIDE 12
+The main bias question is whether aggregate performance hides disparities. I compare RMSE across low-, medium- and high-activity users, as historical activity is directly connected to how much evidence the model receives. I also inspect the dataset’s gender and age bands, but only after prediction and only in aggregate.
+
+Every subgroup result must be presented with its sample size. A dramatic difference in a very small group may be unstable, while a small average difference can conceal intersectional harm. Equal RMSE also does not guarantee equal recommendation quality, catalogue coverage or exposure.
+
+The dataset’s gender field is binary and historically imposed, so it should not be treated as a complete representation of identity. This audit identifies warning signs; it does not certify fairness. In a real service, monitoring should include activity-stratified ranking quality, exposure concentration, coverage, feedback and carefully governed demographic analysis where collection is lawful and genuinely necessary.
+
+SLIDE 13
+The ethical analysis is grounded in recommendation. Although MovieLens uses pseudonymous identifiers, combinations such as age, occupation and postcode can increase re-identification risk. Production systems should minimise collection, separate identity from event data, encrypt information, restrict access, define retention limits and support deletion and opt-out.
+
+Error types also matter. A false positive can waste attention or expose someone to unsuitable content. A false negative can suppress relevant films, including niche or minority-interest content. Repeated recommendations can influence what users watch, which then becomes future training data and reinforces popularity.
+
+Users should be able to dismiss recommendations, correct preferences and understand the principal reason for a suggestion. Monitoring must examine not only accuracy but also catalogue coverage and exposure concentration. The NIST AI Risk Management Framework supports ongoing governance rather than treating ethics as a one-time checklist completed before launch.
+
+SLIDE 14
+A real deployment requires more than a model endpoint. The client calls an authenticated API. Candidate retrieval narrows the catalogue, the model scores candidates, and a policy layer applies safety, availability, diversity and business constraints before returning the ranked list.
+
+The model and its user/item maps must be versioned together. The service should monitor p95 latency, failures, input and score drift, catalogue coverage, activity-stratified NDCG, exposure concentration and user feedback. Threshold breaches should trigger investigation, not uncontrolled automatic retraining.
+
+Retraining should use a versioned snapshot, repeat offline validation and fairness checks, require human approval, and support rollback. Unseen users need a transparent fallback such as diverse popular items or onboarding preferences. Unseen films require content features or governed exploration. A managed platform such as SageMaker, Vertex AI or Azure ML can provide model registry, autoscaling and monitoring, but governance responsibilities remain with the deploying organisation.
+
+SLIDE 15
+My deployment recommendation is to begin with matrix factorisation. For a dataset of this size, it offers a strong balance of predictive capability, speed, parameter efficiency and direct decomposition. It also provides a clear benchmark against which later complexity can be judged.
+
+NCF should be promoted only if the executed notebook shows a meaningful ranking improvement that is stable across folds, persists on the temporal test set, and does not create unacceptable subgroup disparities. The gain must also justify its additional training cost, inference latency and explanation burden.
+
+This is not a claim that classical ML is universally better. With richer contextual features, larger data and carefully measured online outcomes, a neural model may create genuine value. The conclusion is narrower: in responsible deployment, complexity must earn its place through reproducible evidence and manageable risk.
+
+SLIDE 16
+To conclude, this study compares classical and deep learning under a common experimental design. Matrix factorisation makes a constrained linear assumption about latent interaction, while NCF introduces nonlinear capacity and a larger operational footprint.
+
+Robust validation is what turns model scores into credible evidence. RMSE and NDCG answer different questions, and subgroup diagnostics show whether average performance is distributed unevenly. Explainability helps identify reliance and supports debugging, but it must not be confused with causal proof.
+
+The final recommendation is therefore evidence-based and conditional: choose the simplest model that reliably meets the real objective, then surround it with privacy controls, a policy layer, monitoring, human approval, fallbacks and rollback. Responsible machine-learning intelligence is not defined only by what a model can predict. It is defined by whether the complete system can be understood, governed and trusted after it leaves training.
+
+SLIDE 17
+These are the principal sources supporting the dataset, model architectures, evaluation caution and risk-management approach. Full links and bibliographic details are also included in the Jupyter Notebook.
+
+Harper and Konstan document the MovieLens dataset. Koren and colleagues provide the matrix-factorisation basis. He and colleagues introduce neural collaborative filtering. Rendle and colleagues explain why recommender-system baselines and evaluation protocols must be reported carefully. The NIST AI Risk Management Framework informs the governance and monitoring discussion.
+
+Thank you. I am now ready to answer questions about the modelling choices, validation design, explainability, ethical risks or deployment recommendation.
+
