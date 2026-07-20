@@ -1,0 +1,166 @@
+Group B Project: Airbnb Business Analysis Using Data Science
+Project Overview
+
+The Group B project investigated Airbnb listing-price prediction using a data-science approach.
+
+The group framed Airbnb pricing as a strategic business problem. The purpose was to examine whether listing characteristics could be used to predict price and support improved pricing decisions.
+
+The project included:
+
+exploratory data analysis;
+data preprocessing;
+train-test splitting;
+linear regression;
+neural-network regression;
+performance evaluation;
+permutation importance;
+business recommendations.
+
+The group received a baseline mark of 66.
+
+My Individual Contribution
+
+My main contribution was quality assurance and critical review.
+
+I reviewed several parts of the report and helped identify areas requiring improvement. My work included:
+
+checking the clarity of technical explanations;
+identifying inconsistencies;
+reviewing model findings;
+suggesting improvements to the analysis;
+strengthening recommendations;
+reviewing the conclusion;
+helping connect technical results with business meaning.
+
+I also participated in team discussions and provided constructive feedback. My role was particularly focused on ensuring that the final report was coherent and that the claims reflected the available evidence.
+
+The peer evaluation identified analytical thinking, attention to detail, quality assurance and constructive feedback as my strengths.
+
+Team Collaboration
+
+The team included:
+
+Richárd Szépi;
+Maha Hegde;
+Ernestas Poderys;
+Abdulla Al Mutawa;
+Mohammed Khalid M H Lari;
+Jaber Alhammadi.
+
+The team maintained regular communication and divided responsibilities across data preparation, model development, evaluation, writing and review.
+
+The peer-evaluation scores showed that team members:
+
+attended meetings regularly;
+contributed meaningfully;
+completed tasks on time;
+prepared good-quality work;
+demonstrated cooperative behaviour;
+contributed to the project’s success.
+
+Minor delays occurred because of different personal schedules, but these were resolved through communication.
+
+Tutor Feedback
+
+The tutor recognised several strengths.
+
+The group clearly understood the Airbnb business problem and framed price prediction in a strategic context. Relevant variables were selected, and the report included both a linear regression baseline and neural-network approaches.
+
+The group also applied appropriate preprocessing, train-test splitting, evaluation metrics and permutation importance.
+
+However, the tutor identified important limitations.
+
+Weak Justification of Deep Learning
+
+The report did not critically justify why neural networks were suitable for the tabular Airbnb dataset.
+
+A neural network can capture non-linear relationships, but this does not automatically make it the best model for structured tabular data. The report should have compared the neural network with additional alternatives such as:
+
+random forest;
+gradient boosting;
+regularised regression;
+XGBoost;
+support-vector regression.
+
+The marginal improvement over linear regression was not critically evaluated.
+
+Limited Validation
+
+The project depended mainly on one train-test split.
+
+This reduced confidence in the robustness of the results. A stronger approach would have included:
+
+cross-validation;
+repeated train-test splits;
+hyperparameter tuning;
+sensitivity analysis;
+uncertainty estimates.
+Weak Model Performance
+
+The reported R² was approximately 0.14.
+
+This meant that the model explained only a limited proportion of the variation in Airbnb prices. The group acknowledged low explanatory power, but the business consequences were not examined deeply enough.
+
+A weak model may provide some exploratory insight, but it should not be recommended as a dependable pricing system without additional data and validation.
+
+Limited Analysis of Architecture
+
+The report included two neural-network architectures, but the design choices were not sufficiently explained.
+
+The report should have justified:
+
+the number of layers;
+the number of neurons;
+the activation functions;
+the learning rate;
+the optimiser;
+the regularisation method;
+the number of epochs;
+the stopping rule.
+Dataset Limitations
+
+The group recognised price skewness, missing features and overfitting, but the analysis remained descriptive.
+
+A stronger critique should have examined:
+
+omitted variables;
+seasonal effects;
+location granularity;
+host reputation;
+property quality;
+temporal changes;
+sample representativeness;
+possible bias in listing availability;
+impact of extreme prices.
+Business Implications
+
+The report discussed practical implications, but the recommendations were not sufficiently operationalised.
+
+A business recommendation should be linked directly to:
+
+a model result;
+the size and reliability of the effect;
+the relevant Airbnb stakeholder;
+the action that should be taken;
+the limitation affecting that decision.
+Visualisations and Referencing
+
+The figures and tables were labelled, but some visualisations were only briefly interpreted. Figures 3 and 4 in particular required stronger integration into the discussion.
+
+The referencing broadly followed Harvard style, but some technical decisions were unsupported and minor inconsistencies remained.
+
+What I Learned
+
+The project taught me that completing a complex model does not guarantee a strong analysis.
+
+I learned that model complexity must be justified and that weak performance must be discussed honestly. I also learned that business usefulness depends on validation, interpretability and practical implementation rather than on model novelty.
+
+In future group projects, I would introduce:
+
+a clear validation plan;
+a baseline-comparison table;
+documented hyperparameter tuning;
+independent code checking;
+stronger feature justification;
+detailed interpretation of every figure;
+an evidence-based business recommendation section.
